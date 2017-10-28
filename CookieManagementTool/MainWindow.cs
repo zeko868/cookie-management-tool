@@ -23,7 +23,7 @@ namespace CookieManagementTool
         private const string httpOnlyColumnName = "httpOnly";
         private const string browserNameColumnName = "browserName";
 
-        public Dictionary<string, string> webBrowsers = new Dictionary<string, string>();
+        private Dictionary<string, string> webBrowsers = new Dictionary<string, string>();
         private string filterColumn = "All columns";
         private string filterValue = "";
         private StringComparison filterStringCaseComparisonType = StringComparison.InvariantCultureIgnoreCase;
@@ -60,30 +60,22 @@ namespace CookieManagementTool
         {
             this.webBrowsers.Clear();
             RegistryKey directoryKey;
-            try
+            if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\Mozilla\\Firefox\\TaskBarIDs").GetValueNames().Length != 0)
             {
-                string firefoxCurrInstanceInfo = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Mozilla\\Mozilla Firefox").GetSubKeyNames()[0];
-                directoryKey = Registry.LocalMachine.OpenSubKey(String.Format("SOFTWARE\\WOW6432Node\\Mozilla\\Mozilla Firefox\\{0}\\Uninstall", firefoxCurrInstanceInfo));
-                if (directoryKey != null && directoryKey.GetValue("Description") != null)
-                {
-                    this.webBrowsers.Add("firefox", "Mozilla Firefox");
-                }
-            }
-            catch
-            {
+                this.webBrowsers.Add("firefox", "Mozilla Firefox");
             }
             directoryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Google\\Update");
-            if (directoryKey != null && directoryKey.GetValue("UninstallCmdLine") != null)
+            if (directoryKey?.GetValue("UninstallCmdLine") != null)
             {
                 this.webBrowsers.Add("chrome", "Google Chrome");
             }
             directoryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Internet Explorer\\Main");
-            if (directoryKey != null && directoryKey.GetValue("x86AppPath") != null)
+            if (directoryKey?.GetValue("x86AppPath") != null)
             {
                 this.webBrowsers.Add("explorer", "Internet Explorer");
             }
             directoryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\MicrosoftEdge\\Main");
-            if (directoryKey != null && directoryKey.GetValue("OperationalData") != null)
+            if (directoryKey?.GetValue("OperationalData") != null)
             {
                 this.webBrowsers.Add("edge", "Microsoft Edge");
             }

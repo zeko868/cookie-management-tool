@@ -153,11 +153,11 @@ namespace CookieManagementTool
                         ProfileSelection form;
                         if (this.initiallySelectedBrowser == (string)dgvr.Cells[0].Tag)
                         {
-                            form = new ProfileSelection(profileNames, this.initiallySelectedProfile);
+                            form = new ProfileSelection((string)dgvr.Cells[0].Value, profileNames, this.initiallySelectedProfile);
                         }
                         else
                         {
-                            form = new ProfileSelection(profileNames);
+                            form = new ProfileSelection((string)dgvr.Cells[0].Value, profileNames);
                         }
                         if (DialogResult.OK == form.ShowDialog())
                         {
@@ -373,7 +373,7 @@ namespace CookieManagementTool
                         cmd.Parameters.Add("pathOld", DbType.String).Value = this.path;
                         cmd.Parameters.Add("nameOld", DbType.String).Value = this.name;
                         previouslyEncrypted = cmd.ExecuteScalar() != null;
-                        currentlyEncrypted = DialogResult.Yes == MessageBox.Show("Until now cookie value " + (previouslyEncrypted.Value ? "was" : "wasn't") + " encrypted. Do you want to remain its current security level?", String.Format("Remain current cookie value's security level ({0})", profileName), MessageBoxButtons.YesNo);
+                        currentlyEncrypted = DialogResult.Yes == MessageBox.Show("Until now cookie value " + (previouslyEncrypted.Value ? "was" : "wasn't") + " encrypted. Do you want to keep its current security level?", String.Format("Keep current cookie value's security level (Google Chrome - {0})",  profileName), MessageBoxButtons.YesNo);
                     }
                     if (currentlyEncrypted)
                     {

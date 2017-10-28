@@ -9,10 +9,11 @@ namespace CookieManagementTool
         private IEnumerable<string> browserProfiles;
         private string initiallySelectedProfile;
 
-        public ProfileSelection(IEnumerable<string> browserProfiles, string initiallySelectedProfile = null)
+        public ProfileSelection(string browserName, IEnumerable<string> browserProfiles, string initiallySelectedProfile = null)
         {
             InitializeComponent();
 
+            this.Text += " (" + browserName + ")";
             this.browserProfiles = browserProfiles;
             this.initiallySelectedProfile = initiallySelectedProfile;
         }
